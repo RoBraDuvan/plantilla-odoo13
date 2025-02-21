@@ -1,0 +1,50 @@
+services:    
+  odoo:
+    image: odoo:13 # Imagen de odoo
+    restart: always
+    ports:
+    - "8069:8069"
+    depends_on:
+      - databaseodoo # Dependencia de odoo
+    volumes:
+    - odoo-web-data:/var/lib/odoo
+    - ./odoo/custom/addons/:/mnt/extra-addons # Addons personalizados
+    - ./odoo/odoo-server/addons/:/var/lib/odoo/addons/13.0 # Addons de la versión 13
+    - ./odoo/config/:/etc/odoo/ # Configuración de odoo
+    - ./odoo/log/:/var/log/odoo/ # Logs de odoo
+    environment:
+    - HOST=databaseodoo
+    - USER=odoo
+    - PORT=5432
+    - PASSWORD=odoo
+    networks:
+      private:
+        ipv4_address: 172.22.0.2 # IP de odoo
+
+  databaseodoo:
+    image: postgres:10 # Imagen de postgres
+    restart: always
+    ports:
+    - "5432:5432" # Puerto de postgres
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_PASSWORD=odoo
+      - POSTGRES_USER=odoo
+      - PGDATA=/var/lib/postgresql/data/pgdata 
+    volumes:
+      - odoo-db-data:/var/lib/postgresql/data/pgdata # Volumen de postgres
+      - ./postgresql/pg_hba.conf:/var/lib/postgresql/data/pgdata/pg_hba.conf # Configuración de postgres
+    networks:
+      private:
+        ipv4_address: 172.22.0.3
+
+volumes:
+  odoo-web-data: # Volumen para odoo
+  odoo-db-data: # Volumen para postgres
+
+networks: 
+  private:
+    driver: bridge # Driver de red
+    ipam:
+      config:
+        - subnet: 172.22.0.0/24 # Subred privada

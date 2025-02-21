@@ -1,0 +1,34 @@
+# Odoo Docker Setup
+
+Este proyecto utiliza `docker-compose` para configurar y ejecutar los servicios de Odoo y PostgreSQL. A continuación se describen los detalles de la configuración y la estructura de directorios.
+
+## Servicios
+
+### Odoo
+- **Imagen**: `odoo:latest`
+- **Puertos**: 8069:8069
+- **Dependencias**: Depende del servicio de PostgreSQL para la base de datos.
+
+### PostgreSQL
+- **Imagen**: `postgres:latest`
+- **Puertos**: 5432:5432
+- **Variables de entorno**:
+    - `POSTGRES_DB`: Nombre de la base de datos.
+    - `POSTGRES_USER`: Usuario de la base de datos.
+    - `POSTGRES_PASSWORD`: Contraseña del usuario de la base de datos.
+
+## Estructura de Directorios
+
+### Odoo
+- `./odoo`
+    - Directorio para los archivos de configuración y datos de Odoo.
+
+### PostgreSQL
+- `./postgresql`
+    - Directorio para los archivos de configuración y datos de PostgreSQL.
+
+## Uso
+
+1. Clonar el repositorio.
+2. Navegar al directorio del proyecto.
+3. Ejecutar `docker-compose up` para iniciar los servicios.
