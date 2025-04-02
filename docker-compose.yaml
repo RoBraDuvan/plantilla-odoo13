@@ -33,7 +33,7 @@ services:
       - PGDATA=/var/lib/postgresql/data/pgdata 
     volumes:
       - odoo-db-data:/var/lib/postgresql/data/pgdata # Volumen de postgres
-      - ./postgresql/pg_hba.conf:/var/lib/postgresql/data/pgdata/pg_hba.conf # Configuración de postgres
+     # - ./postgresql/pg_hba.conf:/var/lib/postgresql/data/pgdata/pg_hba.conf # Configuración de postgres
     networks:
       private:
         ipv4_address: 172.22.0.3
